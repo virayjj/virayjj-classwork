@@ -15,7 +15,7 @@ NAVY = 	(0,0,128)
 # -- Initialise PyGame
 pygame.init()
 # -- Blank Screen
-size = (640,480)
+size = (590,480)
 screen = pygame.display.set_mode(size)
 # -- Title of new window/screen
 pygame.display.set_caption("House")
@@ -57,7 +57,7 @@ while not done:
 
     #Next event
     sun_x = sun_x + 1
-    if sun_x > 680:
+    if sun_x > 640:
         sun_x = -40
     sun_y = int(a * sun_x**2 + b * sun_x + c)
     # -- Draw here
