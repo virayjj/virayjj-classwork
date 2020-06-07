@@ -48,9 +48,9 @@ while not done:
     
     # -- Game logic goes after this comment
     # - Check criteria for hitting the ball/paddle
-    if x_val < 15 and y_val > y_padd and y_val and y_padd + 60:
+   # ^^ if x_val < 15 and y_val > y_padd and y_val and y_padd + 60:
         # - Change x direction of the ball
-        x_direction = x_direction * -1
+       # ^^ x_direction = x_direction * -1
     # - Update the x and y 
     x_val = x_val + x_direction 
     y_val = y_val + y_direction 
