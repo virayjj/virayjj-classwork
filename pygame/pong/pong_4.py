@@ -41,19 +41,34 @@ while not done:
         y_padd = y_padd - 5
     if keys[pygame.K_DOWN]:
         y_padd = y_padd + 5
+       
+    if y_padd < 0:
+        y_padd = 0
+    if y_padd > 420:
+        y_padd = 420
             #End If
         #End If
     #Next Event
     
     
     # -- Game logic goes after this comment
-    # - Check criteria for hitting the ball/paddle
-   # ^^ if x_val < 15 and y_val > y_padd and y_val and y_padd + 60:
-        # - Change x direction of the ball
-       # ^^ x_direction = x_direction * -1
-    # - Update the x and y 
     x_val = x_val + x_direction 
     y_val = y_val + y_direction 
+    
+    if x_val < padd_length and y_val > y_padd and y_val < y_padd + padd_width:
+        x_direction = x_direction * -1
+        
+    if y_val == 460 or y_val == 0:
+        y_direction = y_direction * -1
+        
+    if x_val == 620:
+        x_direction = x_direction * -1
+        
+    if x_val == -20:
+        x_val = 200
+        y_val = 200
+        pygame.draw.rect(screen, BLUE, (x_val, y_val, 20, ball_width))
+        
     # -- Screen background is BLACK
     screen.fill (BLACK)
     # -- Draw here
