@@ -1,3 +1,4 @@
+### SRC - Excellent effort, I really like the detail with the sky.
 import pygame
 
 # -- Global Constants
@@ -25,6 +26,8 @@ done = False
 clock = pygame.time.Clock()
 # -- Decalring variables for the position of the sun
 sun_x = 0
+### SRC - Why aren't you using the coefficients below? You are doing a few
+### unnecessary calculations here.
 sun_y = int(((sun_x**2) / 2048) - ((5 * sun_x) / 16) + 100)
 
 # coefficient's for quadratic equation of sun movement
