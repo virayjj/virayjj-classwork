@@ -14,8 +14,11 @@ while not valid:
                     valid = True
             else:
                 print ("The input must be a number")
+            # --  end if
         else:
             print ("The input must be a number")
+        # -- end if
     else:
         print ("The input must be a number")
-
+    # -- end if
+# -- end while
