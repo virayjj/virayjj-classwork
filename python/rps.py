@@ -1,3 +1,6 @@
+### SRC - This is a good effort but too many ifs!
+### You should only need to convert choice to int once, not six times!
+### The game does not tell the user what the computer chose...
 import random
 done = False
 while not done:
