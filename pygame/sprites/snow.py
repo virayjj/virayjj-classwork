@@ -35,6 +35,9 @@ class snow(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.speed
         if self.rect.y == 480:
             self.rect.x = random.randrange(0, 600)
+            ### SRC - Is the line below correct?
+            ### Where should the snow be placed once it
+            ### Falls off the bottom
             self.rect.y = random.randrange(0, 400)
     #End Procedure
 #End Class
