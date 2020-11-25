@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += y_val
 
     def shoot(self):
-        bullet = Bullet(self.rect.x + 5, self.rect.y - 5)
+        bullet = Bullet(self.rect.x + 5, self.rect.y + 5)
         bullet_group.add(bullet)
         all_sprites_list.add(bullet)
 
@@ -68,7 +68,7 @@ class Wall(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos):
         super().__init__()
-        self.image = pygamge.Surface([10,10])
+        self.image = pygame.Surface([10,10])
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.rect.x = x_pos
@@ -109,6 +109,11 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+
+        # -- bullet shot
+        elif event.type == pygame.KEYDOWN:
+            if event.key == ord('z'):
+                player.shoot()
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
