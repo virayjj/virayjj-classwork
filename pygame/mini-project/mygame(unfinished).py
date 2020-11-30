@@ -69,7 +69,7 @@ array_enemies = [5, 10, 15]
 array_speed = [-1, 1]
 my_id = 0
 my_score = 0
-player_reset = True
+player_reset = True 
 
 # Set event type
 pygame.time.set_timer(pygame.USEREVENT, 2000)
