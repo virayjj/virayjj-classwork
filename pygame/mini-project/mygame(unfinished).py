@@ -64,9 +64,10 @@ map3 = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     ]
 
-my_maps = [map1, map2, map3]
-array_enemies = [5, 10, 15]
+my_maps = [map1, map2, map3, map1]
+array_enemies = [5, 10, 15, 5]
 array_speed = [-1, 1]
+array_speed2 = [-2, 2]
 my_id = 0
 my_score = 0
 player_reset = True 
@@ -174,7 +175,7 @@ class Enemy(pygame.sprite.Sprite):
         self.speed_y = array_speed[random.randint(0, 1)]
 
     def shoot(self):
-        enemy_bullet = EnemyBullet(self.rect.x + 5, self.rect.y + 5)
+        enemy_bullet = EnemyBullet(self.rect.x + 5, self.rect.y + 5, 1)
         enemybullet_group.add(enemy_bullet)
         all_sprites_list.add(enemy_bullet)
 
@@ -191,14 +192,14 @@ class Enemy(pygame.sprite.Sprite):
         self.old_y = self.rect.y
 
 class EnemyBullet(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
+    def __init__(self, pos_x, pos_y, speed):
         super().__init__()
         self.image = pygame.Surface([10,10])
         self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
-        self.speed = 1
+        self.speed = speed
         self.shoot = random.randint(1, 4)
 
     def update(self):
@@ -210,6 +211,36 @@ class EnemyBullet(pygame.sprite.Sprite):
             self.rect.y -= self.speed
         elif self.shoot == 4:
             self.rect.y += self.speed
+
+class Boss(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y):
+        super().__init__()
+        self.image = pygame.Surface([60,60])
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.old_x = self.rect.x
+        self.old_y = self.rect.y
+        self.speed_x = array_speed2[random.randint(0, 1)]
+        self.speed_y = array_speed2[random.randint(0, 1)]
+
+    def shoot(self):
+        enemy_bullet = EnemyBullet(self.rect.x + 10, self.rect.y + 10, 5)
+        enemybullet_group.add(enemy_bullet)
+        all_sprites_list.add(enemy_bullet)
+
+    def update(self):
+        self.rect.x = self.rect.x + self.speed_x
+        self.rect.y = self.rect.y + self.speed_y
+        enemy_hit_wall = pygame.sprite.spritecollide(self, wall_list, False)
+        for foo in enemy_hit_wall:
+            self.speed_x = array_speed2[random.randint(0, 1)]
+            self.speed_y = array_speed2[random.randint(0, 1)]
+            self.rect.x = self.old_x
+            self.rect.y = self.old_y
+        self.old_x = self.rect.x
+        self.old_y = self.rect.y
         
 ## END CLASS ## 
 
@@ -242,7 +273,6 @@ def createWall():
             x = x + 40
         x = 0
         y = y + 40
-#random.randrange(100, 1180), random.randrange(100, 620)
 
 def createEnemy():
     enemy_num = 0
@@ -357,9 +387,15 @@ while not done:
             elif player.lives == 1:
                 my_score = my_score + 2
         ## Create new map ##
+        player.lives = 3
         my_id += 1
         createWall()
-        createEnemy()
+        if my_id != 3:
+            createEnemy()
+        if my_id == 3:
+            boss = Boss(1100, 240)
+            enemy_group.add(boss)
+            all_sprites_list.add(boss)
         
     ## Player old pos values ##
     player_old_x = player.rect.x
@@ -381,8 +417,8 @@ while not done:
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
  
-    # --- Limit to 60 frames per second
-    clock.tick(300)
+    # --- Limit to x frames per second
+    clock.tick(250)
  
 # Close the window and quit.
 pygame.quit()
