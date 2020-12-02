@@ -64,11 +64,32 @@ map3 = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     ]
 
-my_maps = [map1, map2, map3, map1]
-array_enemies = [5, 10, 15, 5]
+map4 = [
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    ]
+
+my_maps = [map1, map2, map3, map4]
+array_enemies = [2, 2, 2, 1]
 array_speed = [-1, 1]
-array_speed2 = [-2, 2]
-my_id = 0
+array_speed2 = [-3, 3]
+my_id = 1
 my_score = 0
 player_reset = True 
 
@@ -224,11 +245,15 @@ class Boss(pygame.sprite.Sprite):
         self.old_y = self.rect.y
         self.speed_x = array_speed2[random.randint(0, 1)]
         self.speed_y = array_speed2[random.randint(0, 1)]
+        self.lives = 20
 
     def shoot(self):
         enemy_bullet = EnemyBullet(self.rect.x + 10, self.rect.y + 10, 5)
         enemybullet_group.add(enemy_bullet)
         all_sprites_list.add(enemy_bullet)
+
+    def delete(self):
+        self.kill()
 
     def update(self):
         self.rect.x = self.rect.x + self.speed_x
@@ -241,6 +266,8 @@ class Boss(pygame.sprite.Sprite):
             self.rect.y = self.old_y
         self.old_x = self.rect.x
         self.old_y = self.rect.y
+
+        
         
 ## END CLASS ## 
 
@@ -364,13 +391,22 @@ while not done:
     bullet_wall = pygame.sprite.groupcollide(bullet_group, wall_list, True, False)
         
     ## Enemy Collision with Bullets ##
-    enemy_hit_bullet = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
-    for foo in enemy_hit_bullet:
-        ## Create 'portal' ##
-        if(len(enemy_group) == 0):
-            my_point = NextLevel(620,360)
-            all_sprites_list.add(my_point)
-            next_group.add(my_point)
+    if my_id != 3:
+        enemy_hit_bullet = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
+        for foo in enemy_hit_bullet:
+            ## Create 'portal' ##
+            if(len(enemy_group) == 0):
+                my_point = NextLevel(620,360)
+                all_sprites_list.add(my_point)
+                next_group.add(my_point)
+    elif my_id == 3:
+            boss_hit = pygame.sprite.groupcollide(enemy_group, bullet_group, False, True)
+            for foo in boss_hit:
+                boss.lives -= 1
+                if boss.lives == 0:
+                    boss.delete()
+
+        
             
     ## Collision with 'portal' ##
     player_next = pygame.sprite.spritecollide(player, next_group, True)
@@ -396,7 +432,7 @@ while not done:
             boss = Boss(1100, 240)
             enemy_group.add(boss)
             all_sprites_list.add(boss)
-        
+                
     ## Player old pos values ##
     player_old_x = player.rect.x
     player_old_y = player.rect.y    
@@ -410,7 +446,22 @@ while not done:
 
     scoreText = font.render('Score: ' + str(my_score), True, WHITE)
     screen.blit(scoreText, (1300, 40))
- 
+
+    if my_id == 3:
+        healthText = font.render('Boss Health: ' + str(boss.lives), True, WHITE)
+        screen.blit(healthText, (600, 40))
+        if (len(enemy_group)) == 0:
+            winText = font.render('You Win', True, WHITE)
+            screen.blit(winText, (600, 360))
+    ## Powerup ## 
+    if my_score > 9:
+        for item in bullet_group:
+            item.speed = 9
+        if my_score > 14:
+            for item in bullet_group:
+                item.image = pygame.Surface([20,20])
+                item.image.fill(GREEN)
+    
     # --- Drawing code should go here
     all_sprites_list.draw(screen)
  
