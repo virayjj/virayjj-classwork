@@ -133,6 +133,9 @@ class Player(pygame.sprite.Sprite):
         bullet_group.add(bullet)
         all_sprites_list.add(bullet)
 
+    def delete(self):
+        self.kill()
+
 class Wall(pygame.sprite.Sprite):
     def __init__(self, color, width, height, x_ref, y_ref):
         super().__init__()
@@ -371,8 +374,6 @@ while not done:
         if player_reset == False:
             player.lives -= 1
             player_reset = True
-            if player.lives == 0:
-                pass
         
     ## Enemy bullet collision with wall ##
     enemybullet_wall = pygame.sprite.groupcollide(enemybullet_group, wall_list, True, False)
@@ -453,6 +454,14 @@ while not done:
         if (len(enemy_group)) == 0:
             winText = font.render('You Win', True, WHITE)
             screen.blit(winText, (600, 360))
+
+    if player.lives == 0:
+        player.kill()
+        endText = font.render('GAME OVER', True, WHITE)
+        screen.blit(endText, (600, 40))
+        for item in enemy_group:
+            item.kill()
+            
     ## Powerup ## 
     if my_score > 9:
         for item in bullet_group:
